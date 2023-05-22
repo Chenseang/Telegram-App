@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:telegram_app/modules/dashboard/screen/dashboard_screen.dart';
+import 'package:telegram_app/core/auth/login/login_screen.dart';
 
 // import 'firebase_options.dart';
 
@@ -38,6 +38,6 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
-        home: const DashboardScreen());
+        home: const LoginApp());
   }
 }

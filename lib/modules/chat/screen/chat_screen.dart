@@ -72,7 +72,7 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(child: CustomTextField()),
+      body: const Center(child: ChatTextField()),
     );
   }
 }

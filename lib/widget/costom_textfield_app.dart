@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class CustomTextField extends StatelessWidget {
-  const CustomTextField({super.key});
+class ChatTextField extends StatelessWidget {
+  const ChatTextField({super.key});
 
   @override
   Widget build(BuildContext context) {
