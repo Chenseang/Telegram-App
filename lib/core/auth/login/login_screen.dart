@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:telegram_app/app_color.dart';
+
+import 'package:telegram_app/modules/dashboard/controller/app_controller.dart';
 import 'package:telegram_app/widget/costom_button.dart';
 
 import '../../../widget/costom_textfield.dart';
@@ -9,7 +13,8 @@ class LoginApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  
+    final conApp = Get.put(AppController());
+    final auth = FirebaseAuth.instance;
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
@@ -59,8 +64,21 @@ class LoginApp extends StatelessWidget {
             ),
             const Spacer(),
             CustomButton(
-              onTap: (){
-
+              onTap: () async {
+                if (conApp.emailAddress.value.text.isNotEmpty &&
+                    conApp.password.value.text.isNotEmpty) {
+                  try {
+                    await auth.signInWithEmailAndPassword(
+                        email: conApp.emailAddress.value.text,
+                        password: conApp.password.value.text);
+                  } on FirebaseAuthException catch (e) {
+                     debugPrint('Sigin-------Erorre${e.code}');
+                  } catch (e) {
+                    debugPrint('--------Error Sign:$e');
+                  }
+                }
+                conApp.emailAddress.value.clear();
+                conApp.password.value.clear();
               },
               title: 'Login',
               shape: 20,
