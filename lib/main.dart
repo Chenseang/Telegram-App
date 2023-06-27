@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/route_manager.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:get/get.dart';
 import 'package:telegram_app/core/auth/login/login_screen.dart';
+
+import 'generated/l10n.dart';
 
 // import 'firebase_options.dart';
 
@@ -18,7 +21,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+        onInit: () {
+          Get.updateLocale(const Locale('kk'));
+        
+        },
         debugShowCheckedModeBanner: false,
+        locale: Get.locale,
+        supportedLocales: S.delegate.supportedLocales,
+        localizationsDelegates: const [
+          S.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
         theme: ThemeData(
           primaryColor: const Color(0xff2675EC),
           primaryColorLight: const Color(0xffFFFFFF),

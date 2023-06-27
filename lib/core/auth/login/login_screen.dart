@@ -1,11 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:telegram_app/app_color.dart';
+import 'package:telegram_app/core/auth/service_firebsae.dart';
 
 import 'package:telegram_app/modules/dashboard/controller/app_controller.dart';
+import 'package:telegram_app/modules/dashboard/screen/dashboard_screen.dart';
 import 'package:telegram_app/widget/costom_button.dart';
 
+import '../../../generated/l10n.dart';
 import '../../../widget/costom_textfield.dart';
 
 class LoginApp extends StatelessWidget {
@@ -14,14 +16,14 @@ class LoginApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final conApp = Get.put(AppController());
-    final auth = FirebaseAuth.instance;
+    final auth = FirebaseService();
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          'Walcom To Chater ',
+          S.current.welcome,
           style: AppTextStyle.txt20
               .copyWith(color: Theme.of(context).primaryColorLight),
         ),
@@ -43,7 +45,8 @@ class LoginApp extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const CustomTextField(
+            CustomTextField(
+              controller: conApp.emailAddress.value,
               shape: 20,
               hintText: 'Enter your email',
             ),
@@ -58,25 +61,39 @@ class LoginApp extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            const CustomTextField(
+            CustomTextField(
+              controller: conApp.password.value,
               shape: 20,
               hintText: 'Enter your password',
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            CustomButton(
+              onTap: () {
+                Get.updateLocale(const Locale('en'));
+                // auth.signInWithGoogle();
+              },
+              title: 'Google',
+              shape: 20,
+              textColor: Theme.of(context).primaryColor,
+              backgroundColor: Theme.of(context).primaryColorLight,
             ),
             const Spacer(),
             CustomButton(
               onTap: () async {
-                if (conApp.emailAddress.value.text.isNotEmpty &&
-                    conApp.password.value.text.isNotEmpty) {
-                  try {
-                    await auth.signInWithEmailAndPassword(
-                        email: conApp.emailAddress.value.text,
-                        password: conApp.password.value.text);
-                  } on FirebaseAuthException catch (e) {
-                     debugPrint('Sigin-------Erorre${e.code}');
-                  } catch (e) {
-                    debugPrint('--------Error Sign:$e');
-                  }
-                }
+                // debugPrint(conApp.password.value.text);
+                // debugPrint(conApp.emailAddress.value.text);
+                // bool login = await auth.signInWithEmail(
+                //     context: context,
+                //     email: conApp.emailAddress.value.text,
+                //     password: conApp.password.value.text);
+                // if (login == true) {
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (context) => const DashboardScreen(),
+                ));
+                // }
+
                 conApp.emailAddress.value.clear();
                 conApp.password.value.clear();
               },

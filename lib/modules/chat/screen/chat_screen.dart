@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -5,9 +7,17 @@ import 'package:get/get.dart';
 import '../../../app_color.dart';
 import '../../../widget/costom_textfield_app.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
+  final _firestore = FirebaseFirestore.instance;
+  final auth = FirebaseAuth.instance;
+  User? user;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,7 +59,7 @@ class ChatScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Chankimha',
+                  auth.currentUser?.displayName ?? "Person",
                   style:
                       AppTextStyle.txt18.copyWith(fontWeight: FontWeight.w700),
                 ),
@@ -72,7 +82,11 @@ class ChatScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(child: ChatTextField()),
+      body: Center(child: ChatTextField(
+        onTapPlush: () async {
+          await user?.updateDisplayName("Seang");
+        },
+      )),
     );
   }
 }

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class ChatTextField extends StatelessWidget {
-  const ChatTextField({super.key});
+  final GestureTapCallback? onTapPlush;
+  const ChatTextField({super.key, this.onTapPlush});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +34,14 @@ class ChatTextField extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.min,
             children: [
-              SizedBox(
-                width: 25,
-                height: 25,
-                child: SvgPicture.asset(
-                  'assets/image/icons/Plus.svg',
+              GestureDetector(
+                onTap: onTapPlush,
+                child: SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: SvgPicture.asset(
+                    'assets/image/icons/Plus.svg',
+                  ),
                 ),
               ),
               const SizedBox(
